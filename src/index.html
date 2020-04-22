@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optical Character Recognition</title>
+    <meta name="description" content="Распознавание текста с изображений с Tesseract.js">
+    <link rel="stylesheet" href="style.scss" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="controls text-center">
+        <select id="langs"> </select>
+      </div>
+
+      <div class="result">
+        <div class="result__preview text-center">
+          <img id="preview" width="400" src="" />
+
+          <div>
+            <label for="file" class="btn btn-secondary">
+              Выберите файл
+              <input type="file" id="file" />
+            </label>
+            <br />
+            <small>или перетащите на страницу</small>
+          </div>
+        </div>
+
+        <div class="result__log">
+          <div id="log"></div>
+          <div class="text-center">
+            <button type="button" id="start" class="btn btn-primary">
+              Начать обработку
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js" async></script>
+  </body>
+</html>

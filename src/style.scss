@@ -1,0 +1,183 @@
+$primary: #009688;
+$primaryHover:  #00695c;
+$primaryContrast: white;
+
+$secondary: #e0e0e0;
+$secondaryHover: #d5d5d5;
+$secondaryContrast: #333333;
+
+$background: #f5f5f5;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 18px;
+}
+body {
+  font-family: sans-serif;
+  background: $background;
+  min-height: 100vh;
+
+  &.highlight {
+    &:after {
+      content: '';
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+small {
+  font-size: 0.75em;
+  opacity: 0.5;
+}
+.page {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 20px;
+}
+.text-center {
+  text-align: center;
+}
+input[type="file"] {
+  display: none;
+}
+
+select, .btn {
+  font: inherit;
+  height: 40px;
+  padding: 0px 25px;
+  border-radius: 4px;
+  border: none;
+}
+select {
+  width: 250px;
+}
+.btn {
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 300ms;
+
+  &-secondary {
+    background-color: $secondary;
+    color: $secondaryContrast;
+
+    &:hover {
+      background-color: $secondaryHover;
+    }
+  }
+  &-primary {
+    background-color: $primary;
+    color: $primaryContrast;
+
+    &:hover {
+      background-color: $primaryHover;
+    }
+
+    &[disabled], &[disabled]:hover {
+      background-color: $secondary;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.result {
+  margin-top: 20px;
+  margin-left: -20px;
+  margin-right: -20px;
+  display: flex;
+
+  & > div {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+#preview {
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+#log {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 200px;
+  border-radius: 4px;
+  padding: 15px;
+  flex-grow: 1;
+  background: white;
+  margin-bottom: 20px;
+}
+pre {
+  width: 100%;
+  white-space: pre-line;
+  font-size: 16px;
+}
+.state {
+  width: 100%;
+  flex-grow: 1;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  font-size: 14px;
+  &__status {
+    margin-bottom: 10px;
+    &:after {
+      content: '...';
+    }
+  }
+  &__progress {
+    background-color: $primary;
+    border-radius: 4px;
+    height: 15px;
+    border: 1px solid #eee;
+
+    &::-webkit-progress-bar {
+      background-color: white;
+    }
+
+    &::-webkit-progress-value {
+      background-color: $primary;
+    }
+
+    &::-moz-progress-bar {
+      background-color: $primary;
+    }
+  }
+
+}
+
+@media screen and (max-width: 860px) {
+  html {
+    font-size: 14px;
+  }
+  select, .btn {
+    padding: 0 15px;
+  }
+  .result {
+    display: block;
+    padding: 0;
+
+    & > div {
+      width: 100%;
+    }
+  }
+}
