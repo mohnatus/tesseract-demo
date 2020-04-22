@@ -1,35 +1,3 @@
-function updateProgress(data) {
-  if (data.status === 'done') {
-    log.innerHTML = '';
-    const pre = document.createElement('pre')
-    pre.appendChild(document.createTextNode(data.data.text.replace(/\n\s*\n/g, '\n')))
-    log.appendChild(pre)
-  } else {
-    if (log.firstChild && log.firstChild.status === data.status) {
-      if('progress' in data){
-        const progress = log.firstChild.querySelector('progress')
-        progress.value = data.progress
-      }
-    } else {
-        const line = document.createElement('div');
-        line.status = data.status;
-        const status = document.createElement('div')
-        status.className = 'status'
-        status.appendChild(document.createTextNode(data.status))
-        line.appendChild(status)
-
-        if('progress' in data){
-            const progress = document.createElement('progress')
-            progress.value = data.progress
-            progress.max = 1
-            line.appendChild(progress)
-        }
-
-        log.insertBefore(line, log.firstChild)
-    }
-  }
-}
-
 function StatusLine() {
   let el = document.createElement('div');
   el.className = 'state';

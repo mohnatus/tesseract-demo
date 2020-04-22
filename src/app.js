@@ -1,9 +1,8 @@
-import { FileInput } from './readFile';
-import { Log } from './Log';
-import defaultImage from './rus.png';
-import { createWorker } from 'tesseract.js';
+import Tesseract from 'tesseract.js';
 import { langs } from './langs';
+import { Log } from './Log';
 import { DnD } from './DnD';
+import defaultImage from './rus.png';
 
 // Переменная для хранения выбранного файла
 let file;
@@ -20,23 +19,23 @@ langs.forEach((lang) => {
 // Инпут для загрузки файлов и активация drag-n-drop зоны
 const preview = document.getElementById('preview');
 const input = document.getElementById('file');
-function onFileLoad(loadedFile) {
-  const reader  = new FileReader();
+function createPreview(loadedFile) {
+  const reader = new FileReader();
   reader.onloadend = function () {
-    setFile(reader.result);
-  }
+    preview.src = reader.result;
+  };
   reader.readAsDataURL(loadedFile);
 }
-function setFile(src) {
-  file = src;
-  preview.src = src;
-}
 input.addEventListener('change', () => {
-  onFileLoad(input.files[0])
+  file = input.files[0];
+  createPreview(file);
 });
-DnD(document.body, onFileLoad);
+DnD(document.body, (loadedFile) => {
+  file = loadedFile;
+  createPreview(file);
+});
 // Установка изображения по умолчанию
-setFile(defaultImage);
+file = preview.src = defaultImage;
 
 // Кнопка Начать обработку
 const start = document.getElementById('start');
@@ -45,18 +44,16 @@ const start = document.getElementById('start');
 const log = Log(document.getElementById('log'));
 
 // Функция распознавания текста
-async function recognize(file, langs) {
-  const worker = createWorker({
-    logger: (data) => log.updateProgress(data.status, data.progress),
+function recognize(file, langs) {
+  return Tesseract.recognize(file, langs, {
+    logger: (data) => {
+      console.log('Progress:', data);
+      log.updateProgress(data.status, data.progress);
+    },
+  }).then((data) => {
+    console.log('Result:', data);
+    return data.data.text;
   });
-  await worker.load();
-  await worker.loadLanguage(langs);
-  await worker.initialize(langs);
-  const {
-    data: { text },
-  } = await worker.recognize(file);
-  await worker.terminate();
-  return text;
 }
 
 // Начать обработку по клику на кнопку
